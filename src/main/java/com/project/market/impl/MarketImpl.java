@@ -20,7 +20,7 @@ public class MarketImpl {
         try {
             ValidationAbstract validator = validatorFactory.getValidator(Constant.REGISTER);
             validator.validate(Constant.REGISTER,jsonRequest);
-            .
+
         }catch (ResponseException e){
             logger.error(String.format(Constant.THROW_EXCEPTION,e.getMessage()));
         }
