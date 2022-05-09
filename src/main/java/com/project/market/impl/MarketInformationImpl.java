@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MarketImpl {
-    private static final Logger logger = Logger.getLogger(MarketImpl.class);
+public class MarketInformationImpl {
+    private static final Logger logger = Logger.getLogger(MarketInformationImpl.class);
 
     @Autowired
     private ValidatorFactory validatorFactory;
