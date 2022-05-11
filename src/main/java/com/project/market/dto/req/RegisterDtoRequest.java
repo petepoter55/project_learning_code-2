@@ -10,5 +10,12 @@ public class RegisterDtoRequest {
     private String lastname;
     private String email;
     private String telephone;
-
+    private String address1;
+    private String address2;
+    private String road;
+    private String districtName;
+    private String subProvinceName;
+    private String provinceName;
+    private String postcode;
+    private String type;
 }

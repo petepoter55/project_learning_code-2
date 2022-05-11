@@ -17,16 +17,52 @@
       "minLength": 1 ,
       "maxLength": 20
     },
+    "road": {
+      "type": "string",
+      "minLength": 1 ,
+      "maxLength": 20
+    },
+    "districtName": {
+      "type": "string",
+      "minLength": 1 ,
+      "maxLength": 20
+    },
+    "subProvinceName": {
+      "type": "string",
+      "minLength": 1 ,
+      "maxLength": 20
+    },
+    "provinceName": {
+      "type": "string",
+      "minLength": 1 ,
+      "maxLength": 20
+    },
+    "postcode": {
+      "type": "string",
+      "minLength": 1 ,
+      "maxLength": 8
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1 ,
+      "maxLength": 1
+    },
     "telephone": {
       "type": "string",
       "minLength": 1 ,
-      "maxLength": 10
+      "maxLength": 15
     }
   },
   "required": [
     "firstname",
     "lastname",
     "email",
-    "telephone"
+    "telephone",
+    "road",
+    "districtName",
+    "subProvinceName",
+    "provinceName",
+    "postcode",
+    "type"
   ]
 }

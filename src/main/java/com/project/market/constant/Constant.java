@@ -6,6 +6,10 @@ public class Constant {
     public final static String STATUS_CODE_ERROR = "400";
     public final static String STATUS_CODE_FOUND = "404";
 
+    public final static Boolean STATUS_SUCCESS = true;
+    public final static Boolean STATUS_FALSE = false;
+
+
     public final static String TEMPLATE_PATH_VALIDATION_FILE = "template/%s/validation.json";
 
     public final static String UTF_8 = "UTF-8";
@@ -49,8 +53,14 @@ public class Constant {
     public final static String SUCCESS_UPDATE_PEOPLE = "อัปเดตข้อมูลเสร็จเรียบร้อย";
     public final static String ERROR_UPDATE_PEOPLE = "อัปเดตข้อมูลไม่สำเร็จ";
 
-    //create peopleData
-    public final static String ERROR_PEOPLE_CHECKDATA_DUPLICATE = "ข้อมูลนี้ได้่ทำการลงทะเบียน เรียบร้อยแล้ว";
+    //create Data
+    public final static String ERROR_REGISTER_CHECKDATA_DUPLICATE = "Data Register is Duplicate";
+    public final static String REFERENCE_NO = "M000000%d";
+    public final static String STATUS_CREATE_BEGIN = "1";
+    public final static String STATUS_CREATE_SUCCESS = "5";
+
+    public final static String TYPE_REGISTER_1 = "บุคคลธรรมดา";
+    public final static String TYPE_REGISTER_2 = "บุคคลพิเศษ";
     public final static String ERROR_PEOPLE_CHECKDATA_FOUND = "ไม่พบข้อมูลที่อยู่ในระบบ";
     public final static String SUCCESS_PEOPLE = "ลงทะเบียนเรียบร้อย";
 
