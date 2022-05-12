@@ -20,6 +20,8 @@ public class Constant {
     public final static String PATTERN = "pattern";
     //request
     public final static String REGISTER = "REGISTER";
+    public final static String DELETE_REGISTER = "DELETEDATA";
+    public final static String UPDATE_REGISTER = "UPDATEDATA";
     public final static String REQUEST_GETDATA = "GET_MANAGEIDREQUEST";
 
     //response
@@ -55,6 +57,7 @@ public class Constant {
 
     //create Data
     public final static String ERROR_REGISTER_CHECKDATA_DUPLICATE = "Data Register is Duplicate";
+    public final static String ERROR_REGISTER_CHECKDATA_FOUND = "Data Register is Not Found";
     public final static String REFERENCE_NO = "M000000%d";
     public final static String STATUS_CREATE_BEGIN = "1";
     public final static String STATUS_CREATE_SUCCESS = "5";
