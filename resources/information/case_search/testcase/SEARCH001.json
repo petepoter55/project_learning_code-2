@@ -1,0 +1,26 @@
+{
+  "searchDtoRequest" : {
+    "firstName" : "บ"
+  },
+  "informationMarket" : [
+    {
+      "id": 21,
+      "referenceNo": "M000000957",
+      "firstName": "บุญฤทธิ์",
+      "lastName": "เพ็ญศรี",
+      "type": "บุคคลธรรมดา",
+      "address1": "หมู่บ้าน สินทวรกรีนวิลล์2",
+      "address2": null,
+      "road": "ประชาอุทิศ 90",
+      "districtName": "พระสมุทรเจดีย์",
+      "subProvinceName": "บ้านคลองสวน",
+      "provinceName": "กรุงเทพ",
+      "postcode": "10290",
+      "email": "peach@gmail.co.th",
+      "telephone": "123-1234-123",
+      "status": "1",
+      "createDateTime": "2022-05-12 00:00:00",
+      "updateDateTime": "2022-05-12 00:00:00"
+    }
+  ]
+}

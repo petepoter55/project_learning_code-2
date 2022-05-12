@@ -47,40 +47,40 @@ public class MarketInformationImpl {
     @Autowired
     private EntityManager entityManager;
 
-    public Response register(String jsonRequest) throws ResponseException{
+    public Response register(String jsonRequest) throws ResponseException {
         logger.info("============= start register =============");
         RegisterDtoRequest registerDtoRequest;
         try {
             //validate input
             ValidationAbstract validator = validatorFactory.getValidator(Constant.REGISTER);
-            validator.validate(Constant.REGISTER,jsonRequest);
-            registerDtoRequest = objectMapper.readValue(jsonRequest,RegisterDtoRequest.class);
+            validator.validate(Constant.REGISTER, jsonRequest);
+            registerDtoRequest = objectMapper.readValue(jsonRequest, RegisterDtoRequest.class);
 
-            InformationMarket informationMarket = this.informationMarketRepository.findByFirstnameAndLastname(registerDtoRequest.getFirstname(),registerDtoRequest.getLastname());
+            InformationMarket informationMarket = this.informationMarketRepository.findByFirstnameAndLastname(registerDtoRequest.getFirstname(), registerDtoRequest.getLastname());
 
             boolean checkDataRegister = ObjectUtils.isEmpty(informationMarket);
             logger.info("checkDataRegister : " + checkDataRegister);
-            if(checkDataRegister){
+            if (checkDataRegister) {
                 setObjectRegister(registerDtoRequest);
-            }else {
-                return new Response(Constant.STATUS_FALSE,Constant.ERROR_REGISTER_CHECKDATA_DUPLICATE,Constant.STATUS_CODE_FAIL);
+            } else {
+                return new Response(Constant.STATUS_FALSE, Constant.ERROR_REGISTER_CHECKDATA_DUPLICATE, Constant.STATUS_CODE_FAIL);
             }
-        }catch (ResponseException | JsonProcessingException e){
-            logger.error(String.format(Constant.THROW_EXCEPTION,e.getMessage()));
+        } catch (ResponseException | JsonProcessingException e) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
         }
         logger.info("============= done register =============");
-        return new Response(Constant.STATUS_SUCCESS,Constant.SUCCESS,Constant.STATUS_CODE_SUCCESS);
+        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
     }
 
-    public void setObjectRegister(RegisterDtoRequest registerDtoRequest){
-        String RefNo = String.format(Constant.REFERENCE_NO,Integer.parseInt(new Util().randomNumber(3)));
+    public void setObjectRegister(RegisterDtoRequest registerDtoRequest) {
+        String RefNo = String.format(Constant.REFERENCE_NO, Integer.parseInt(new Util().randomNumber(3)));
         String typeRegister = null;
         try {
-            if(("1").equals(registerDtoRequest.getType())){
+            if (("1").equals(registerDtoRequest.getType())) {
                 typeRegister = Constant.TYPE_REGISTER_1;
-            }else if(("2").equals(registerDtoRequest.getType())){
+            } else if (("2").equals(registerDtoRequest.getType())) {
                 typeRegister = Constant.TYPE_REGISTER_2;
-            }else {
+            } else {
                 typeRegister = Constant.TYPE_REGISTER_1;
             }
 
@@ -102,38 +102,38 @@ public class MarketInformationImpl {
             informationMarket.setType(typeRegister);
 
             informationMarketRepository.save(informationMarket);
-        }catch (ResponseException | ParseException e){
-            logger.error(String.format(Constant.THROW_EXCEPTION,e.getMessage()));
+        } catch (ResponseException | ParseException e) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
         }
     }
 
-    public ResponseEntity<String> deleteById(Integer id){
+    public ResponseEntity<String> deleteById(Integer id) {
         logger.info("============= start delete Data =============");
         logger.info("register id : " + id);
         try {
             Optional<InformationMarket> informationMarket = informationMarketRepository.findById(id);
-            if(informationMarket.isPresent()){
+            if (informationMarket.isPresent()) {
                 informationMarketRepository.deleteById(id);
-            }else {
+            } else {
                 return new ResponseEntity<>(Constant.ERROR_REGISTER_CHECKDATA_FOUND, HttpStatus.FOUND);
             }
-        }catch (ResponseException e){
-            logger.error(String.format(Constant.THROW_EXCEPTION,e.getMessage()));
+        } catch (ResponseException e) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
         }
         logger.info("============= done delete Data =============");
         return new ResponseEntity<>(Constant.SUCCESS, HttpStatus.OK);
     }
 
-    public Response updateRegisterData(String jsonRequest){
+    public Response updateRegisterData(String jsonRequest) {
         logger.info("============= start updateRegisterData =============");
         try {
             //validation input
             ValidationAbstract validationAbstract = validatorFactory.getValidator(Constant.UPDATE_REGISTER);
-            validationAbstract.validate(Constant.UPDATE_REGISTER,jsonRequest);
-            UpdateRegisterDtoRequest updateRegisterDtoRequest = objectMapper.readValue(jsonRequest,UpdateRegisterDtoRequest.class);
+            validationAbstract.validate(Constant.UPDATE_REGISTER, jsonRequest);
+            UpdateRegisterDtoRequest updateRegisterDtoRequest = objectMapper.readValue(jsonRequest, UpdateRegisterDtoRequest.class);
 
             Optional<InformationMarket> informationMarkets = informationMarketRepository.findById(Integer.parseInt(updateRegisterDtoRequest.getId()));
-            if(informationMarkets.isPresent()){
+            if (informationMarkets.isPresent()) {
                 InformationMarket informationMarket = informationMarkets.get();
                 informationMarket.setFirstName(updateRegisterDtoRequest.getFirstname());
                 informationMarket.setLastName(updateRegisterDtoRequest.getLastname());
@@ -152,17 +152,17 @@ public class MarketInformationImpl {
             }
 
         } catch (JsonMappingException e) {
-            logger.error(String.format(Constant.THROW_EXCEPTION,e.getMessage()));
-            return new Response(Constant.STATUS_FALSE,String.format(Constant.THROW_EXCEPTION,e.getMessage()),Constant.STATUS_CODE_FAIL);
-        } catch (ResponseException | JsonProcessingException | ParseException ex){
-            logger.error(String.format(Constant.THROW_EXCEPTION,ex.getMessage()));
-            return new Response(Constant.STATUS_FALSE,String.format(Constant.THROW_EXCEPTION,ex.getMessage()),Constant.STATUS_CODE_FAIL);
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, e.getMessage()), Constant.STATUS_CODE_FAIL);
+        } catch (ResponseException | JsonProcessingException | ParseException ex) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, ex.getMessage()));
+            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, ex.getMessage()), Constant.STATUS_CODE_FAIL);
         }
         logger.info("============= done updateRegisterData =============");
-        return new Response(Constant.STATUS_SUCCESS,Constant.SUCCESS,Constant.STATUS_CODE_SUCCESS);
+        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
     }
 
-    public List<InformationMarket> searchByInput(SearchDtoRequest searchDtoRequest){
+    public List<InformationMarket> searchByInput(SearchDtoRequest searchDtoRequest) {
         logger.info("============= start searchByInput =============");
         List<InformationMarket> informationMarketList = new ArrayList<>();
         try {
@@ -173,19 +173,19 @@ public class MarketInformationImpl {
 
             //list condition
             List<Predicate> predicates = new ArrayList<>();
-            if(searchDtoRequest.getFirstName() != null){
+            if (searchDtoRequest.getFirstName() != null && !("").equals(searchDtoRequest.getFirstName())) {
                 logger.info("firstName: " + searchDtoRequest.getFirstName());
                 predicates.add(criteriaBuilder.like(informationMarketRoot.get("firstName"), "%" + searchDtoRequest.getFirstName() + "%"));
             }
-            if(searchDtoRequest.getLastName() != null){
+            if (searchDtoRequest.getLastName() != null && !("").equals(searchDtoRequest.getFirstName())) {
                 logger.info("lastName: " + searchDtoRequest.getLastName());
                 predicates.add(criteriaBuilder.like(informationMarketRoot.get("lastName"), "%" + searchDtoRequest.getLastName() + "%"));
             }
-            if(searchDtoRequest.getEmail() != null){
+            if (searchDtoRequest.getEmail() != null) {
                 logger.info("email: " + searchDtoRequest.getEmail());
                 predicates.add(criteriaBuilder.like(informationMarketRoot.get("email"), "%" + searchDtoRequest.getEmail() + "%"));
             }
-            if(searchDtoRequest.getReferenceNo() != null){
+            if (searchDtoRequest.getReferenceNo() != null) {
                 logger.info("referenceNo: " + searchDtoRequest.getReferenceNo());
                 predicates.add(criteriaBuilder.equal(informationMarketRoot.get("referenceNo"), searchDtoRequest.getReferenceNo()));
             }
@@ -195,11 +195,12 @@ public class MarketInformationImpl {
             }
 
             //execute query
+            //TODO when send argument value "" but query return result ? >> why
             criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
-            informationMarketList = entityManager.createQuery(criteriaQuery).setFirstResult(0).setMaxResults(5).getResultList();
+            informationMarketList = entityManager.createQuery(criteriaQuery).getResultList();
 
-        }catch (ResponseException e){
-            logger.error(String.format(Constant.THROW_EXCEPTION,e.getMessage()));
+        } catch (ResponseException e) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
         }
         logger.info("size informationMarketList : " + informationMarketList.size());
         logger.info("============= done searchByInput =============");
