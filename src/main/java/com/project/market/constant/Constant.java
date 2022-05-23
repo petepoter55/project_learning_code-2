@@ -22,6 +22,7 @@ public class Constant {
     public final static String REGISTER = "REGISTER";
     public final static String DELETE_REGISTER = "DELETEDATA";
     public final static String UPDATE_REGISTER = "UPDATEDATA";
+    public final static String INSERT_PRODUCT = "INSERT_PRODUCT";
     public final static String REQUEST_GETDATA = "GET_MANAGEIDREQUEST";
 
     //response
@@ -67,6 +68,10 @@ public class Constant {
     public final static String ERROR_PEOPLE_CHECKDATA_FOUND = "ไม่พบข้อมูลที่อยู่ในระบบ";
     public final static String SUCCESS_PEOPLE = "ลงทะเบียนเรียบร้อย";
 
+    //product
+    public final static String ERROR_PRODUCT_CHECKDATA_DUPLICATE = "Data Products is Duplicate";
+    public final static String ERROR_PRODUCT_CHECKDATA_NOT_FOUND = "Data Products is not Founds";
+    public final static String ERROR_FILE_TYPE_INVALID = "file Type invalid";
     //create Account
     public final static String SUCCESS_CREATE_ACCOUNT = "สร้างบัญชีผู้ใช้งานเสร็จเรียบร้อย";
     public final static String ERROR_CREATE_ACCOUNT = "สร้างบัญชีผู้ใช้งานไม่สำเร็จ";

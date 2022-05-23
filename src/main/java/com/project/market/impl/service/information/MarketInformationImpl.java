@@ -1,4 +1,4 @@
-package com.project.market.impl;
+package com.project.market.impl.service.information;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -9,7 +9,7 @@ import com.project.market.dto.req.SearchDtoRequest;
 import com.project.market.dto.req.UpdateRegisterDtoRequest;
 import com.project.market.dto.res.Response;
 import com.project.market.entity.information.InformationMarket;
-import com.project.market.entity.repository.InformationMarketRepository;
+import com.project.market.entity.repository.information.InformationMarketRepository;
 import com.project.market.impl.exception.ResponseException;
 import com.project.market.impl.validation.ValidationAbstract;
 import com.project.market.impl.validation.ValidatorFactory;

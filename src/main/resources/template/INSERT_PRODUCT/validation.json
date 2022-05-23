@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "productName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 150
+    },
+    "productCount": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "active": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20
+    },
+    "price": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 20
+    }
+  },
+  "required": [
+    "productName",
+    "productCount",
+    "active",
+    "type",
+    "price"
+  ]
+}
