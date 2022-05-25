@@ -23,6 +23,14 @@ public class DateUtil {
         return df.format(dates);
     }
 
+    public String getFormatsDateString() throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+
+        Date dates = cal.getTime();
+        return df.format(dates);
+    }
+
     public String generateDatetimeAndMilliSecString(String date) throws ParseException {
         String formatDate = "yyyy-MM-dd HH:mm:ss.SSS";
         DateFormat dateFormat = new SimpleDateFormat(formatDate);
@@ -39,5 +47,51 @@ public class DateUtil {
 
         Date dates = cal.getTime();
         return dates;
+    }
+
+    public static String generateDatetimeToString(Date date) throws ParseException {
+        String formatDate = "yyyy-MM-dd";
+        DateFormat dateFormat = new SimpleDateFormat(formatDate);
+
+        return dateFormat.format(date);
+    }
+
+    public static String convert2FullMonth(String month) {
+        String monthname = "";
+        if (month.equals("01")) {
+            monthname = "มกราคม";
+        } else if (month.equals("02")) {
+            monthname = "กุมภาพันธ์";
+        } else if (month.equals("03")) {
+            monthname = "มีนาคม";
+        } else if (month.equals("04")) {
+            monthname = "เมษายน";
+        } else if (month.equals("05")) {
+            monthname = "พฤษภาคม";
+        } else if (month.equals("06")) {
+            monthname = "มิถุนายน";
+        } else if (month.equals("07")) {
+            monthname = "กรกฎาคม";
+        } else if (month.equals("08")) {
+            monthname = "สิงหาคม";
+        } else if (month.equals("09")) {
+            monthname = "กันยายน";
+        } else if (month.equals("10")) {
+            monthname = "ตุลาคม";
+        } else if (month.equals("11")) {
+            monthname = "พฤศจิกายน";
+        } else if (month.equals("12")) {
+            monthname = "ธันวาคม";
+        }
+        return monthname;
+    }
+
+    public static String convertFullDateThai(Date date) throws ParseException {
+        String dateTime = generateDatetimeToString(date);
+        String day = String.valueOf(Integer.valueOf(dateTime.substring(8, 10)));
+        String month = convert2FullMonth(dateTime.substring(5, 7));
+        String year = String.valueOf(Integer.parseInt(dateTime.substring(0, 4)) + 543);
+
+        return day + " " + month + " " + year;
     }
 }

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -134,5 +136,26 @@ public class MarketProductController {
             throw new IOException(Constant.ERROR_FILE_TYPE_INVALID);
         }
         return this.marketProductImage.insertImageByProductCode(file, productCode);
+    }
+
+    @ApiOperation(value = "Export Product Market Data to Excel", nickname = "exportProduct", notes = "Export Data Product Market in Excel")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 409, message = "Business Error"),
+            @ApiResponse(code = 500, message = "Internal server error occurred"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @RequestMapping(value = "/export-product", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void exportProductExcel(
+            @ApiParam(name = "productCode", value = "Product code", required = true)
+            @RequestParam(value = "productCode") String productCode,
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException, ParseException {
+        logger.info("Path =" + request.getRequestURI() + ", method = " + request.getMethod() + " INITIATED...");
+        marketProducts.exportSearchUserByApproved(response, productCode);
     }
 }

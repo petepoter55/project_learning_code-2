@@ -15,6 +15,7 @@ import com.project.market.impl.validation.ValidatorFactory;
 import com.project.market.util.DateUtil;
 import com.project.market.util.Util;
 import org.apache.log4j.Logger;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -23,7 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,5 +142,79 @@ public class MarketProductsImpl {
         }
         logger.info("============= done import product =============");
         return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+    }
+
+    public void exportSearchUserByApproved(HttpServletResponse response, String productCode) throws IOException, ParseException {
+        response.setHeader("Content-Type", "application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=" + "product_" + new DateUtil().getFormatsDateString() + "_" + new Util().randomNumber(1) + ".xlsx");
+        OutputStream outStream = null;
+
+        try {
+            // fix column name
+            String[] columns = {
+                    "ProductCode",
+                    "ProductName",
+                    "Active",
+                    "Type-product",
+                    "Price(Bath)",
+                    "Total-product",
+                    "CreateDateTime"
+            };
+
+            Workbook workbook = new XSSFWorkbook();
+
+            CreationHelper createHelper = workbook.getCreationHelper();
+            Sheet sheet = workbook.createSheet("master");
+
+            // set style Header
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setFontHeightInPoints((short) 14);
+
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+
+            Row headerRow = sheet.createRow(0);
+
+            // create header cell
+            for (int i = 0; i < columns.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(columns[i]);
+                cell.setCellStyle(headerCellStyle);
+            }
+
+            int rowNum = 1;
+
+            List<ProductMarket> list = productMarketRepository.findByProductCode(productCode);
+
+            // initialize data in row
+            for (ProductMarket d : list) {
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(d.getProductCode());
+                row.createCell(1).setCellValue(d.getProductName());
+                row.createCell(2).setCellValue(d.getActive());
+                row.createCell(3).setCellValue(d.getType());
+                row.createCell(4).setCellValue(d.getPrice().toString());
+                row.createCell(5).setCellValue(d.getProductCount().toString());
+                row.createCell(6).setCellValue(new DateUtil().convertFullDateThai(d.getCreateDateTime()));
+            }
+
+            for (int i = 0; i < columns.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            // output response file name
+            outStream = response.getOutputStream();
+            workbook.write(outStream);
+            outStream.flush();
+            workbook.close();
+
+        } catch (Exception e) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+        } finally {
+            if (outStream != null) {
+                outStream.close();
+            }
+        }
     }
 }
