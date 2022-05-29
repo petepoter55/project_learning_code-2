@@ -5,4 +5,6 @@ public class DatabaseSchema {
     public static final String ProductMarket = "MASTER";
     public static final String ProductMarketDescription = "MASTER";
     public static final String ImageProductMarket = "MASTER";
+    public static final String FormManagementUpload = "MASTER";
+    public static final String FormManagement = "MASTER";
 }
