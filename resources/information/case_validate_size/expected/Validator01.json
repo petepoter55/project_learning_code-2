@@ -1,0 +1,13 @@
+[
+  "firstname: size must be between 0 and 255",
+  "lastname: size must be between 0 and 255",
+  "email: size must be between 0 and 50",
+  "telephone: size must be between 0 and 50",
+  "address1: size must be between 0 and 90",
+  "road: size must be between 0 and 150",
+  "districtName: size must be between 0 and 150",
+  "subProvinceName: size must be between 0 and 150",
+  "provinceName: size must be between 0 and 150",
+  "postcode: size must be between 0 and 5",
+  "type: size must be between 0 and 255"
+]
