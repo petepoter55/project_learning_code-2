@@ -7,4 +7,5 @@ public class DatabaseSchema {
     public static final String ImageProductMarket = "MASTER";
     public static final String FormManagementUpload = "MASTER";
     public static final String FormManagement = "MASTER";
+    public static final String User = "MASTER";
 }

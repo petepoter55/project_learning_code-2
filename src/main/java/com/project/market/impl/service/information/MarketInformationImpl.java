@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.market.constant.Constant;
-import com.project.market.dto.req.RegisterDtoRequest;
+import com.project.market.dto.req.InformationInsertDtoRequest;
 import com.project.market.dto.req.SearchDtoRequest;
 import com.project.market.dto.req.UpdateRegisterDtoRequest;
 import com.project.market.dto.res.Response;
@@ -49,19 +49,19 @@ public class MarketInformationImpl {
 
     public Response register(String jsonRequest) throws ResponseException {
         logger.info("============= start register =============");
-        RegisterDtoRequest registerDtoRequest;
+        InformationInsertDtoRequest informationInsertDtoRequest;
         try {
             //validate input
             ValidationAbstract validator = validatorFactory.getValidator(Constant.REGISTER);
             validator.validate(Constant.REGISTER, jsonRequest);
-            registerDtoRequest = objectMapper.readValue(jsonRequest, RegisterDtoRequest.class);
+            informationInsertDtoRequest = objectMapper.readValue(jsonRequest, InformationInsertDtoRequest.class);
 
-            InformationMarket informationMarket = this.informationMarketRepository.findByFirstnameAndLastname(registerDtoRequest.getFirstname(), registerDtoRequest.getLastname());
+            InformationMarket informationMarket = this.informationMarketRepository.findByFirstnameAndLastname(informationInsertDtoRequest.getFirstname(), informationInsertDtoRequest.getLastname());
 
             boolean checkDataRegister = ObjectUtils.isEmpty(informationMarket);
             logger.info("checkDataRegister : " + checkDataRegister);
             if (checkDataRegister) {
-                setObjectRegister(registerDtoRequest);
+                setObjectRegister(informationInsertDtoRequest);
             } else {
                 return new Response(Constant.STATUS_FALSE, Constant.ERROR_REGISTER_CHECKDATA_DUPLICATE, Constant.STATUS_CODE_FAIL);
             }
@@ -72,32 +72,32 @@ public class MarketInformationImpl {
         return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
     }
 
-    public void setObjectRegister(RegisterDtoRequest registerDtoRequest) {
+    public void setObjectRegister(InformationInsertDtoRequest informationInsertDtoRequest) {
         String RefNo = String.format(Constant.REFERENCE_NO, Integer.parseInt(new Util().randomNumber(3)));
         String typeRegister = null;
         try {
-            if (("1").equals(registerDtoRequest.getType())) {
+            if (("1").equals(informationInsertDtoRequest.getType())) {
                 typeRegister = Constant.TYPE_REGISTER_1;
-            } else if (("2").equals(registerDtoRequest.getType())) {
+            } else if (("2").equals(informationInsertDtoRequest.getType())) {
                 typeRegister = Constant.TYPE_REGISTER_2;
             } else {
                 typeRegister = Constant.TYPE_REGISTER_1;
             }
 
             InformationMarket informationMarket = new InformationMarket();
-            informationMarket.setFirstName(registerDtoRequest.getFirstname());
-            informationMarket.setLastName(registerDtoRequest.getLastname());
+            informationMarket.setFirstName(informationInsertDtoRequest.getFirstname());
+            informationMarket.setLastName(informationInsertDtoRequest.getLastname());
             informationMarket.setReferenceNo(RefNo);
-            informationMarket.setEmail(registerDtoRequest.getEmail());
-            informationMarket.setRoad(registerDtoRequest.getRoad());
+            informationMarket.setEmail(informationInsertDtoRequest.getEmail());
+            informationMarket.setRoad(informationInsertDtoRequest.getRoad());
             informationMarket.setCreateDateTime(new DateUtil().getFormatsDateMilli());
-            informationMarket.setTelephone(registerDtoRequest.getTelephone());
-            informationMarket.setAddress1(registerDtoRequest.getAddress1());
-            informationMarket.setAddress2(registerDtoRequest.getAddress2());
-            informationMarket.setDistrictName(registerDtoRequest.getDistrictName());
-            informationMarket.setProvinceName(registerDtoRequest.getProvinceName());
-            informationMarket.setSubProvinceName(registerDtoRequest.getSubProvinceName());
-            informationMarket.setPostcode(registerDtoRequest.getPostcode());
+            informationMarket.setTelephone(informationInsertDtoRequest.getTelephone());
+            informationMarket.setAddress1(informationInsertDtoRequest.getAddress1());
+            informationMarket.setAddress2(informationInsertDtoRequest.getAddress2());
+            informationMarket.setDistrictName(informationInsertDtoRequest.getDistrictName());
+            informationMarket.setProvinceName(informationInsertDtoRequest.getProvinceName());
+            informationMarket.setSubProvinceName(informationInsertDtoRequest.getSubProvinceName());
+            informationMarket.setPostcode(informationInsertDtoRequest.getPostcode());
             informationMarket.setStatus(Constant.STATUS_CREATE_BEGIN);
             informationMarket.setType(typeRegister);
 

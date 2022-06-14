@@ -1,12 +1,36 @@
 package com.project.market.util;
 
+import org.apache.commons.lang.time.DateUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
+    public Date getDaysTimes(Date date, boolean isMaxTime) {
+        Date returnDate = null;
+
+        if (date != null) {
+            if (isMaxTime) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH) + 1;
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                LocalDateTime newDate = LocalDateTime.of(year, month, day, 23, 59, 59);
+                returnDate = Date.from(newDate.atZone(ZoneId.systemDefault()).toInstant());
+            } else {
+                returnDate = DateUtils.truncate(date, Calendar.DATE);
+            }
+        }
+
+        return returnDate;
+    }
+
     public Date getFormatsDateMilli() throws ParseException {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();

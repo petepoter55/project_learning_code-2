@@ -11,6 +11,8 @@ public class ResponseException extends RuntimeException{
     private static final long serialVersionUID = 1L;
     private String exceptionCode;
     private Object data;
+    private String description;
+    private String moreInfo;
 
     public ResponseException() {}
 
@@ -28,5 +30,13 @@ public class ResponseException extends RuntimeException{
         super(message);
         this.exceptionCode = exceptionCode;
         this.data = data;
+    }
+
+    public ResponseException(String exceptionCode, String message, String description, String moreInfo) {
+        super(message);
+        this.exceptionCode = exceptionCode;
+        this.data = data;
+        this.description = description;
+        this.moreInfo = moreInfo;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name = "IMAGE_PRODUCT_MARKET", schema= DatabaseSchema.ImageProductMarket)
+@Table(name = "IMAGE_PRODUCT_MARKETS", schema= DatabaseSchema.ImageProductMarket)
 public class ProductImageMarket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -52,6 +52,11 @@ public class Constant {
     public final static String DOES_NOT_MATCH_PATTERN = "_does_not_match_pattern_";
     public final static String RAISED_EXCEPTION_IS_NULL = "raisedException is null.";
 
+    public static final String ALL_OTHERS_ERROR = "BU003";
+    public static final String ALL_OTHERS_MESSAGE = "Passing error message from backend";
+    public static final String ALL_OTHERS_DESC = "Process Failure";
+    public static final String ALL_OTHERS_MOREINFO = "Original Error Code: '%s', Message: '%s'";
+
     //update data
     public final static String SUCCESS_UPDATE_PEOPLE = "อัปเดตข้อมูลเสร็จเรียบร้อย";
     public final static String ERROR_UPDATE_PEOPLE = "อัปเดตข้อมูลไม่สำเร็จ";
@@ -63,6 +68,11 @@ public class Constant {
     public final static String STATUS_CREATE_BEGIN = "1";
     public final static String STATUS_CREATE_SUCCESS = "5";
 
+    //change password
+    public final static String ERROR_DATA_TOKEN_FOUND = "Data Token is Not Found";
+    public final static String ERROR_DATA_CHANGE_PASSWORD = "Change Password Failed";
+    public final static String ERROR_DATA_PASSWORD = "Old Password not Equals in Before Password";
+
     public final static String TYPE_REGISTER_1 = "บุคคลธรรมดา";
     public final static String TYPE_REGISTER_2 = "บุคคลพิเศษ";
     public final static String ERROR_PEOPLE_CHECKDATA_FOUND = "ไม่พบข้อมูลที่อยู่ในระบบ";
@@ -72,9 +82,12 @@ public class Constant {
     public final static String ERROR_PRODUCT_CHECKDATA_DUPLICATE = "Data Products is Duplicate";
     public final static String ERROR_PRODUCT_CHECKDATA_NOT_FOUND = "Data Products is not Founds";
     public final static String ERROR_FILE_TYPE_INVALID = "file Type invalid";
+
     //create Account
+    public final static String AUTHENTICATE_TYPE_NORMAL = "ปกติ";
     public final static String SUCCESS_CREATE_ACCOUNT = "สร้างบัญชีผู้ใช้งานเสร็จเรียบร้อย";
     public final static String ERROR_CREATE_ACCOUNT = "สร้างบัญชีผู้ใช้งานไม่สำเร็จ";
+    public final static String ERROR_CREATE_ACCOUNT_DUP = "สร้างบัญชีผู้ใช้งานไม่สำเร็จ เนื่องจากบัญชีผู้ใช้งานนี้ถูกสร้างไปเรียบร้อยแล้ว";
     public final static String ERROR_INPUT_CREATE_ACCOUNT = "รหัสผ่านระบุไม่ถูกต้อง เนื่องจาก ระบุรหัสผ่านไม่ตรงกับยืนยันรหัสผ่าน";
 
     //login

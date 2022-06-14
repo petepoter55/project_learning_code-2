@@ -10,4 +10,6 @@ public interface InformationMarketRepository extends JpaRepository<InformationMa
     InformationMarket findByFirstnameAndLastname(
             @Param("firstname") String firstname,
             @Param("lastname") String lastname);
+
+    InformationMarket findByReferenceNo(String refNo);
 }

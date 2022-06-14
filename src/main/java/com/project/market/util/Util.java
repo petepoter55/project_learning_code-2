@@ -49,6 +49,18 @@ public class Util {
         return status;
     }
 
+    public static boolean checkOldPassword(String oldPass, String pass)
+            throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        boolean status = true;
+
+        String passwordRequest = hashSha256(pass);
+        String passwordDatabase = hashSha256(oldPass);
+        if (!passwordRequest.equals(passwordDatabase)) {
+            status = false;
+        }
+        return status;
+    }
+
     public static String hashSha256(String msg)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");

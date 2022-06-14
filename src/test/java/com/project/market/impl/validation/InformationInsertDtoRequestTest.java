@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.market.constant.Constant;
-import com.project.market.dto.req.RegisterDtoRequest;
+import com.project.market.dto.req.InformationInsertDtoRequest;
 import com.project.market.impl.MarketInformationSearchTest;
 import com.project.market.impl.exception.ResponseException;
 import org.apache.commons.io.FileUtils;
@@ -34,7 +34,7 @@ import java.util.Set;
 
 
 @RunWith(SpringRunner.class)
-public class RegisterDtoRequestTest {
+public class InformationInsertDtoRequestTest {
     private final static Logger logger = Logger.getLogger(MarketInformationSearchTest.class);
 
     @Mock
@@ -56,10 +56,10 @@ public class RegisterDtoRequestTest {
 
         try {
             for (File file : files) {
-                RegisterDtoRequest registerDtoRequest = mapper.readValue(file, RegisterDtoRequest.class);
+                InformationInsertDtoRequest informationInsertDtoRequest = mapper.readValue(file, InformationInsertDtoRequest.class);
                 List<String> actual = new ArrayList<>();
 
-                Set<ConstraintViolation<RegisterDtoRequest>> errors = validator.validate(registerDtoRequest);
+                Set<ConstraintViolation<InformationInsertDtoRequest>> errors = validator.validate(informationInsertDtoRequest);
                 for (ConstraintViolation<?> error : errors) {
                     actual.add(error.getPropertyPath().toString() + ": " + error.getMessage());
                 }
