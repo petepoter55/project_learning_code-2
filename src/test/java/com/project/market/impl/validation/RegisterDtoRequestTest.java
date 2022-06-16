@@ -1,12 +1,11 @@
 package com.project.market.impl.validation;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.market.constant.Constant;
 import com.project.market.dto.req.InformationInsertDtoRequest;
-import com.project.market.impl.MarketInformationSearchTest;
+import com.project.market.dto.req.RegisterDtoRequest;
 import com.project.market.impl.exception.ResponseException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -32,10 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
 @RunWith(SpringRunner.class)
-public class InformationInsertDtoRequestTest {
-    private final static Logger logger = Logger.getLogger(MarketInformationSearchTest.class);
+public class RegisterDtoRequestTest {
+    private final static Logger logger = Logger.getLogger(RegisterDtoRequestTest.class);
 
     @Mock
     private Validator validator;
@@ -55,29 +53,32 @@ public class InformationInsertDtoRequestTest {
                 .setDateFormat(simpleDateFormat);
 
         try {
-            for (File file : files) {
-                InformationInsertDtoRequest informationInsertDtoRequest = mapper.readValue(file, InformationInsertDtoRequest.class);
+            for (File file : files){
+                logger.debug("unit-test case => " + file.getName());
+                RegisterDtoRequest registerDtoRequest = mapper.readValue(file, RegisterDtoRequest.class);
                 List<String> actual = new ArrayList<>();
 
-                Set<ConstraintViolation<InformationInsertDtoRequest>> errors = validator.validate(informationInsertDtoRequest);
+                Set<ConstraintViolation<RegisterDtoRequest>> errors = validator.validate(registerDtoRequest);
                 for (ConstraintViolation<?> error : errors) {
                     actual.add(error.getPropertyPath().toString() + ": " + error.getMessage());
                 }
 
-                List<String> expected = mapper.readValue(FileUtils.readFileToString(new File(FilenameUtils.concat("./resources/information/case_validate_size/expected", file.getName())), StandardCharsets.UTF_8), new TypeReference<List<String>>() {});
-
+                List<String> expected = mapper.readValue(FileUtils.readFileToString(new File(FilenameUtils.concat("./resources/register/case_validation_input/expected", file.getName())), StandardCharsets.UTF_8), new TypeReference<List<String>>() {});
                 logger.debug("Actual error => " + actual);
                 logger.debug("Expected error => " + expected);
-                JSONCompareResult result = JSONCompare.compareJSON(mapper.writeValueAsString(expected), mapper.writeValueAsString(actual), JSONCompareMode.NON_EXTENSIBLE);
+
+                JSONCompareResult result = JSONCompare.compareJSON(mapper.writeValueAsString(expected),mapper.writeValueAsString(actual), JSONCompareMode.NON_EXTENSIBLE);
                 Assert.assertTrue(result.passed());
+                logger.debug("result => " + result.passed());
+
             }
-        } catch (ResponseException e) {
+        }catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
         }
     }
 
     private File[] readTestCase() throws Exception {
-        File folder = new File("./resources/information/case_validate_size/request");
+        File folder = new File("./resources/register/case_validation_input/request");
         return folder.listFiles();
     }
 }

@@ -1,0 +1,8 @@
+[
+  "username: must not be null",
+  "password: must not be null",
+  "email: must not be null",
+  "confirmEmail: must not be null",
+  "telephone: must not be null",
+  "refNoInformation: must not be null"
+]

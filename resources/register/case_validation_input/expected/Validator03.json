@@ -1,0 +1,8 @@
+[
+  "username: size must be between 1 and 100",
+  "password: size must be between 1 and 100",
+  "email: size must be between 1 and 50",
+  "confirmEmail: size must be between 1 and 50",
+  "telephone: size must be between 1 and 10",
+  "refNoInformation: size must be between 1 and 10"
+]
