@@ -1,6 +1,7 @@
 package com.project.market.controller;
 
 import com.project.market.dto.req.ChangePasswordDtoRequest;
+import com.project.market.dto.req.LoginDtoRequest;
 import com.project.market.dto.req.RegisterDtoRequest;
 import com.project.market.dto.res.JwtDtoResponse;
 import com.project.market.dto.res.Response;
@@ -83,5 +84,24 @@ public class RegisterController {
     ) {
         logger.info("Path =" + request.getRequestURI() + ", method = " + request.getMethod() + " INITIATED...");
         return this.registerImpl.changePassword(changePasswordDtoRequest);
+    }
+
+    @ApiOperation(value = "Login", nickname = "log-in", notes = "Login")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 409, message = "Business Error"),
+            @ApiResponse(code = 500, message = "Internal server error occurred"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody Response login(
+            @Valid @RequestBody(required = true) LoginDtoRequest loginDtoRequest,
+            HttpServletRequest request
+    ) {
+        logger.info("Path =" + request.getRequestURI() + ", method = " + request.getMethod() + " INITIATED...");
+        return this.registerImpl.login(loginDtoRequest);
     }
 }

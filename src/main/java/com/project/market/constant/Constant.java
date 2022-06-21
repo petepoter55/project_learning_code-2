@@ -73,6 +73,10 @@ public class Constant {
     public final static String ERROR_DATA_CHANGE_PASSWORD = "Change Password Failed";
     public final static String ERROR_DATA_PASSWORD = "Old Password not Equals in Before Password";
 
+    //login
+    public final static String ERROR_DATA_LOGIN_PASSWORD = "Login Failed because password invalid";
+    public final static String ERROR_DATA_LOGIN_USERNAME = "Username Not Found";
+
     public final static String TYPE_REGISTER_1 = "บุคคลธรรมดา";
     public final static String TYPE_REGISTER_2 = "บุคคลพิเศษ";
     public final static String ERROR_PEOPLE_CHECKDATA_FOUND = "ไม่พบข้อมูลที่อยู่ในระบบ";
