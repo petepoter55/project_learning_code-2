@@ -1,8 +1,8 @@
 package com.project.market.controller;
 
-import com.project.market.dto.req.ChangePasswordDtoRequest;
-import com.project.market.dto.req.LoginDtoRequest;
-import com.project.market.dto.req.RegisterDtoRequest;
+import com.project.market.dto.req.register.ChangePasswordDtoRequest;
+import com.project.market.dto.req.register.LoginDtoRequest;
+import com.project.market.dto.req.register.RegisterDtoRequest;
 import com.project.market.dto.res.JwtDtoResponse;
 import com.project.market.dto.res.Response;
 import com.project.market.impl.service.register.RegisterImpl;

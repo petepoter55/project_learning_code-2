@@ -73,6 +73,15 @@ public class DateUtil {
         return dates;
     }
 
+    public Date generateDatetime(String date) throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(df.parse(date));
+
+        Date dates = cal.getTime();
+        return dates;
+    }
+
     public static String generateDatetimeToString(Date date) throws ParseException {
         String formatDate = "yyyy-MM-dd";
         DateFormat dateFormat = new SimpleDateFormat(formatDate);

@@ -1,6 +1,6 @@
 package com.project.market.impl.validation.validate;
 
-import com.project.market.dto.req.RegisterDtoRequest;
+import com.project.market.dto.req.register.RegisterDtoRequest;
 import org.springframework.stereotype.Component;
 
 @Component

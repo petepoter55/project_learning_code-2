@@ -1,6 +1,6 @@
 package com.project.market.controller;
 
-import com.project.market.dto.req.SearchDtoRequest;
+import com.project.market.dto.req.information.SearchDtoRequest;
 import com.project.market.dto.res.Response;
 import com.project.market.entity.information.InformationMarket;
 import com.project.market.impl.service.information.MarketInformationImpl;

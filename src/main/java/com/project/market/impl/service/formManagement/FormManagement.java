@@ -1,7 +1,7 @@
 package com.project.market.impl.service.formManagement;
 
 import com.project.market.constant.Constant;
-import com.project.market.dto.req.EditFormManagementRequest;
+import com.project.market.dto.req.information.EditFormManagementRequest;
 import com.project.market.dto.res.Response;
 import com.project.market.entity.form.FormManagementUpload;
 import com.project.market.entity.repository.form.FormManagementRepository;

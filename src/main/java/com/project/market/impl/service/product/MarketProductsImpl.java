@@ -4,9 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.market.constant.Constant;
-import com.project.market.dto.req.ProductInsertDtoRequest;
+import com.project.market.dto.req.product.ProductDiscountInsertDtpRequest;
+import com.project.market.dto.req.product.ProductInsertDtoRequest;
 import com.project.market.dto.res.Response;
+import com.project.market.entity.product.ProductDiscount;
 import com.project.market.entity.product.ProductMarket;
+import com.project.market.entity.repository.product.ProductDiscountRepository;
 import com.project.market.entity.repository.product.ProductMarketDescriptionRepository;
 import com.project.market.entity.repository.product.ProductMarketRepository;
 import com.project.market.impl.exception.ResponseException;
@@ -43,6 +46,8 @@ public class MarketProductsImpl {
     private ProductMarketRepository productMarketRepository;
     @Autowired
     private ProductMarketDescriptionRepository productMarketDescriptionRepository;
+    @Autowired
+    private ProductDiscountRepository productDiscountRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -112,6 +117,18 @@ public class MarketProductsImpl {
         logger.info("product size :" + productMarkets.size());
         logger.info("============= done search product =============");
         return productMarkets;
+    }
+
+    public Response insertProductDiscount(ProductDiscountInsertDtpRequest productDiscountInsertDtpRequest) {
+        ProductDiscount productDiscount = new ProductDiscount();
+        try {
+            productDiscount.setProductCode(productDiscountInsertDtpRequest.getProductCode());
+            productDiscount.setDiscount(productDiscountInsertDtpRequest.getDiscount());
+            productDiscountRepository.save(productDiscount);
+        } catch (ResponseException e) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+        }
+        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
     }
 
     public Response importDataExcel(MultipartFile files) throws IOException {

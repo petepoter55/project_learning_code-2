@@ -1,4 +1,4 @@
-package com.project.market.dto.req;
+package com.project.market.dto.req.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

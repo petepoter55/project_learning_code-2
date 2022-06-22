@@ -1,9 +1,9 @@
 package com.project.market.impl.service.register;
 
 import com.project.market.constant.Constant;
-import com.project.market.dto.req.ChangePasswordDtoRequest;
-import com.project.market.dto.req.LoginDtoRequest;
-import com.project.market.dto.req.RegisterDtoRequest;
+import com.project.market.dto.req.register.ChangePasswordDtoRequest;
+import com.project.market.dto.req.register.LoginDtoRequest;
+import com.project.market.dto.req.register.RegisterDtoRequest;
 import com.project.market.dto.res.JwtDtoResponse;
 import com.project.market.dto.res.Response;
 import com.project.market.entity.information.InformationMarket;

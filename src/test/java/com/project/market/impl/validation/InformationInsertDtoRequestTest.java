@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.market.constant.Constant;
-import com.project.market.dto.req.InformationInsertDtoRequest;
+import com.project.market.dto.req.information.InformationInsertDtoRequest;
 import com.project.market.impl.MarketInformationSearchTest;
 import com.project.market.impl.exception.ResponseException;
 import org.apache.commons.io.FileUtils;

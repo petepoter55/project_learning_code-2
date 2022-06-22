@@ -8,4 +8,6 @@ public class DatabaseSchema {
     public static final String FormManagementUpload = "MASTER";
     public static final String FormManagement = "MASTER";
     public static final String User = "MASTER";
+    public static final String ProductDiscount = "MASTER";
+    public static final String HistoryOrder = "MASTER";
 }

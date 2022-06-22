@@ -1,4 +1,4 @@
-package com.project.market.dto.req;
+package com.project.market.dto.req.register;
 
 import lombok.Data;
 

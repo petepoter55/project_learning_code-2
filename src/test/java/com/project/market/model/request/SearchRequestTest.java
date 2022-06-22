@@ -1,6 +1,6 @@
 package com.project.market.model.request;
 
-import com.project.market.dto.req.SearchDtoRequest;
+import com.project.market.dto.req.information.SearchDtoRequest;
 import com.project.market.entity.information.InformationMarket;
 import lombok.Getter;
 import lombok.Setter;
