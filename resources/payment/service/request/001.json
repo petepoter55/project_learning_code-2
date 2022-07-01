@@ -1,0 +1,20 @@
+{
+  "paymentDtoRequest": {
+    "username": "Scb12345",
+    "productMarketList": [
+      {
+        "productId": "3",
+        "productCode": "571825",
+        "productName": "คารามูโจ้ มันฝรั่งแผ่นเรียบ รสฮ๊อตชิลลี่ 48 ก. x 4 ซอง",
+        "price": 80
+      }
+    ]
+  },
+  "productDiscount" : {
+    "orderId" : "1",
+    "productCode" : "571825",
+    "discount" : 10,
+    "createDateTime" : null,
+    "updateDateTime" : null
+  }
+}
