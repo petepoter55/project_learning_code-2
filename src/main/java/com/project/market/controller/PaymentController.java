@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/payments")
@@ -62,6 +63,25 @@ public class PaymentController {
             HttpServletRequest request
     ) {
         logger.info("Path =" + request.getRequestURI() + ", method = " + request.getMethod() + " INITIATED...");
-        return this.paymentImpl.searchHistoryOrder(historyOrderDtoRequest);
+        return this.paymentImpl.searchDetailHistoryOrder(historyOrderDtoRequest);
+    }
+
+    @ApiOperation(value = "Summary Order History", nickname = "summaryOrderHistory", notes = "Summary Order History")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 409, message = "Business Error"),
+            @ApiResponse(code = 500, message = "Internal server error occurred"),
+            @ApiResponse(code = 503, message = "Service Unavailable")})
+    @RequestMapping(value = "/summary-order", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Map<String, Long> summaryOrderHistory(
+            @RequestParam(value = "username") String username,
+            HttpServletRequest request
+    ) {
+        logger.info("Path =" + request.getRequestURI() + ", method = " + request.getMethod() + " INITIATED...");
+        return this.paymentImpl.summaryOrderHistory(username);
     }
 }

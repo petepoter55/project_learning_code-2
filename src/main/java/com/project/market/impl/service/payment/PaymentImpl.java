@@ -19,9 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -86,7 +84,7 @@ public class PaymentImpl {
         }
     }
 
-    public List<HistoryOrderDtoResponse> searchHistoryOrder(HistoryOrderDtoRequest historyOrderDtoRequest) {
+    public List<HistoryOrderDtoResponse> searchDetailHistoryOrder(HistoryOrderDtoRequest historyOrderDtoRequest) {
         List<HistoryOrderDtoResponse> historyOrderDtoResponseList = new ArrayList<>();
         List<HistoryOrder> listFilter;
 
@@ -96,7 +94,7 @@ public class PaymentImpl {
                 if (historyOrderDtoRequest.getUsername() != null) {
                     listFilter = historyOrderList.stream().filter(f -> historyOrderDtoRequest.getUsername().equals(f.getUsername())).collect(Collectors.toList());
 
-                    if (historyOrderDtoRequest.getUsername() != null && historyOrderDtoRequest.getStartDate() != null && historyOrderDtoRequest.getEndDate() != null) {
+                    if (historyOrderDtoRequest.getStartDate() != null && historyOrderDtoRequest.getEndDate() != null) {
                         Date startDates = new DateUtil().generateDatetime(historyOrderDtoRequest.getStartDate());
                         Date endDates = new DateUtil().generateDatetime(historyOrderDtoRequest.getEndDate());
 
@@ -123,6 +121,20 @@ public class PaymentImpl {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
         }
 
-        return historyOrderDtoResponseList;
+        return historyOrderDtoResponseList.stream().sorted(Comparator.comparing(HistoryOrderDtoResponse::getPrice)).collect(Collectors.toList());
+    }
+
+    public Map<String, Long> summaryOrderHistory(String username) {
+        Map<String, Long> groupingCount = new HashMap<>();
+        List<HistoryOrder> historyOrderList = historyOrderRepository.findByUsername(username);
+        try {
+            if (!historyOrderList.isEmpty()) {
+                groupingCount = historyOrderList.stream().collect(Collectors.groupingBy(HistoryOrder::getProductName, Collectors.counting()));
+            }
+        } catch (ResponseException e) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+        }
+
+        return groupingCount;
     }
 }
