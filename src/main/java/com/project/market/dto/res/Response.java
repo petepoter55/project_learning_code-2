@@ -1,38 +1,47 @@
 package com.project.market.dto.res;
 
-public class Response {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class Response<T> {
+    private Boolean status;
     private String code;
     private String message;
-    private boolean status;
+    private T data;
 
-    public Response(boolean status, String message,String code) {
+    public Response(Boolean status, String code, String message, T data) {
         super();
         this.status = status;
-        this.message = message;
         this.code = code;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
         this.message = message;
+        this.data = data;
     }
 
-    public boolean isStatus() {
-        return status;
+    public static <T> Response<T> success(T data) {
+        return new Response<T>(true, null, null, data);
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public static <T> Response<T> success(String code, String message, T data) {
+        return new Response<T>(true, code, message, data);
     }
+
+    public static <T> Response<T> fail(String code, String message) {
+        return new Response<T>(false, code, message, null);
+    }
+
+    public static <T> Response<T> fail(String code, String message, T data) {
+        return new Response<T>(false, code, message, data);
+    }
+
+    public static <T> Response<T> error(String code, String message) {
+        return new Response<T>(false, code, message, null);
+    }
+
+    public static <T> Response<T> error(String code, String message, T data) {
+        return new Response<T>(false, code, message, data);
+    }
+
+
 }

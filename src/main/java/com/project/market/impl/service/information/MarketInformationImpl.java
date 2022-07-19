@@ -63,13 +63,17 @@ public class MarketInformationImpl {
             if (checkDataRegister) {
                 setObjectRegister(informationInsertDtoRequest);
             } else {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_REGISTER_CHECKDATA_DUPLICATE, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_REGISTER_CHECKDATA_DUPLICATE);
             }
-        } catch (ResponseException | JsonProcessingException e) {
+        } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+            return Response.fail(e.getExceptionCode(), e.getMessage(), null);
+        } catch (JsonProcessingException ex) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, ex.getMessage()));
+            return Response.fail(String.valueOf(ex.hashCode()), ex.getMessage(), null);
         }
         logger.info("============= done register =============");
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 
     public void setObjectRegister(InformationInsertDtoRequest informationInsertDtoRequest) {
@@ -115,10 +119,11 @@ public class MarketInformationImpl {
             if (informationMarket.isPresent()) {
                 informationMarketRepository.deleteById(id);
             } else {
-                return new ResponseEntity<>(Constant.ERROR_REGISTER_CHECKDATA_FOUND, HttpStatus.FOUND);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_REGISTER_CHECKDATA_FOUND);
             }
         } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         logger.info("============= done delete Data =============");
         return new ResponseEntity<>(Constant.SUCCESS, HttpStatus.OK);
@@ -151,15 +156,12 @@ public class MarketInformationImpl {
                 informationMarketRepository.save(informationMarket);
             }
 
-        } catch (JsonMappingException e) {
+        } catch (ParseException | ResponseException | JsonProcessingException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
-            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, e.getMessage()), Constant.STATUS_CODE_FAIL);
-        } catch (ResponseException | JsonProcessingException | ParseException ex) {
-            logger.error(String.format(Constant.THROW_EXCEPTION, ex.getMessage()));
-            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, ex.getMessage()), Constant.STATUS_CODE_FAIL);
+            return Response.fail(String.valueOf(e.hashCode()), e.getMessage(), null);
         }
         logger.info("============= done updateRegisterData =============");
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 
     public List<InformationMarket> searchByInput(SearchDtoRequest searchDtoRequest) {

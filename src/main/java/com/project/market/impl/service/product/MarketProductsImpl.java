@@ -73,18 +73,19 @@ public class MarketProductsImpl {
 
                 productMarketRepository.save(productMarkets);
             } else {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_PRODUCT_CHECKDATA_DUPLICATE, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_PRODUCT_CHECKDATA_DUPLICATE);
             }
 
-        } catch (JsonMappingException e) {
+        } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
-            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, e.getMessage()), Constant.STATUS_CODE_FAIL);
-        } catch (ResponseException | JsonProcessingException | ParseException ex) {
+            return Response.fail(e.getExceptionCode(), e.getMessage(), null);
+        } catch (JsonProcessingException | ParseException ex) {
             logger.error(String.format(Constant.THROW_EXCEPTION, ex.getMessage()));
-            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, ex.getMessage()), Constant.STATUS_CODE_FAIL);
+            return Response.fail(String.valueOf(ex.hashCode()), ex.getMessage(), null);
         }
+
         logger.info("============= done insert product =============");
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 
     public Response deleteProductById(Integer productId) {
@@ -95,14 +96,15 @@ public class MarketProductsImpl {
             if (productMarket.isPresent()) {
                 productMarketRepository.delete(productMarket.get());
             } else {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_PRODUCT_CHECKDATA_NOT_FOUND, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_PRODUCT_CHECKDATA_NOT_FOUND);
             }
         } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
-            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, e.getMessage()), Constant.STATUS_CODE_FAIL);
+            return Response.fail(e.getExceptionCode(), e.getMessage(), null);
         }
+
         logger.info("============= done delete product =============");
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 
     public List<ProductMarket> searchProduct(String productCode) {
@@ -128,7 +130,8 @@ public class MarketProductsImpl {
         } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
         }
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 
     public Response importDataExcel(MultipartFile files) throws IOException {
@@ -153,12 +156,12 @@ public class MarketProductsImpl {
             }
         } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
-            return new Response(Constant.STATUS_FALSE, String.format(Constant.THROW_EXCEPTION, e.getMessage()), Constant.STATUS_CODE_FAIL);
+            return Response.fail(e.getExceptionCode(), e.getMessage(), null);
         } finally {
             workbook.close();
         }
         logger.info("============= done import product =============");
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 
     public void exportSearchUserByApproved(HttpServletResponse response, String productCode) throws IOException, ParseException {

@@ -52,15 +52,19 @@ public class RegisterImpl {
 
                     userRepository.save(user);
                 } else {
-                    return new ResponseEntity<>(new Response(Constant.STATUS_FALSE, Constant.ERROR_CREATE_ACCOUNT_DUP, Constant.STATUS_CODE_FAIL), HttpStatus.BAD_REQUEST);
+                    throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_CREATE_ACCOUNT_DUP);
                 }
             } else {
-                return new ResponseEntity<>(new Response(Constant.STATUS_FALSE, Constant.ERROR_CREATE_ACCOUNT, Constant.STATUS_CODE_FAIL), HttpStatus.BAD_REQUEST);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_CREATE_ACCOUNT);
             }
-        } catch (ResponseException | UnsupportedEncodingException | NoSuchAlgorithmException | ParseException e) {
+        } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+            return new ResponseEntity<>(Response.fail(e.getExceptionCode(), e.getMessage(), null), HttpStatus.BAD_REQUEST);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | ParseException ex) {
+            return new ResponseEntity<>(Response.fail(String.valueOf(ex.hashCode()), ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS), HttpStatus.OK);
+
+        return new ResponseEntity<>(Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, ""), HttpStatus.OK);
     }
 
     public JwtDtoResponse getDataToken(String jwtToken) {
@@ -79,17 +83,17 @@ public class RegisterImpl {
         try {
             User user = userRepository.findByUsername(changePasswordDtoRequest.getUsername());
             if (user == null) {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_REGISTER_CHECKDATA_FOUND, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_REGISTER_CHECKDATA_FOUND);
             }
 
             JwtDtoResponse jwtDtoResponse = jwtImpl.getDataJwt(user.getJwt_data());
             if (jwtDtoResponse == null) {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_DATA_TOKEN_FOUND, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_DATA_TOKEN_FOUND);
             }
 
             boolean checkOldPassword = util.checkOldPassword(jwtDtoResponse.getPassword(), util.hashSha256(changePasswordDtoRequest.getOldPassword()));
             if (!checkOldPassword) {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_DATA_PASSWORD, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_DATA_PASSWORD);
             }
 
             RegisterDtoRequest registerDtoRequest = new RegisterDtoRequest();
@@ -102,10 +106,14 @@ public class RegisterImpl {
             user.setJwt_data(jwtImpl.generateToken(registerDtoRequest));
             user.setUpdateDateTime(new DateUtil().getFormatsDateMilli());
             userRepository.save(user);
-        } catch (ResponseException | UnsupportedEncodingException | NoSuchAlgorithmException | ParseException e) {
+        } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+            return Response.fail(e.getExceptionCode(), e.getMessage(), null);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException | ParseException ex) {
+            return Response.fail(String.valueOf(ex.hashCode()), ex.getMessage(), null);
         }
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 
     public Response login(LoginDtoRequest loginDtoRequest) {
@@ -113,22 +121,26 @@ public class RegisterImpl {
         try {
             user = userRepository.findByUsername(loginDtoRequest.getUsername());
             if (user == null) {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_DATA_LOGIN_USERNAME, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_DATA_LOGIN_USERNAME);
             }
 
             JwtDtoResponse jwtDtoResponse = jwtImpl.getDataJwt(user.getJwt_data());
             if (jwtDtoResponse == null) {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_DATA_TOKEN_FOUND, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_DATA_TOKEN_FOUND);
             }
 
             boolean checkPassword = new Util().checkPassphrases(jwtDtoResponse.getPassword(), loginDtoRequest.getPassword());
             if (!checkPassword) {
-                return new Response(Constant.STATUS_FALSE, Constant.ERROR_DATA_LOGIN_PASSWORD, Constant.STATUS_CODE_FAIL);
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_DATA_LOGIN_PASSWORD);
             }
 
-        } catch (ResponseException | UnsupportedEncodingException | NoSuchAlgorithmException e) {
+        } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+            return Response.fail(e.getExceptionCode(), e.getMessage(), null);
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException ex) {
+            return Response.fail(String.valueOf(ex.hashCode()), ex.getMessage(), null);
         }
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 }

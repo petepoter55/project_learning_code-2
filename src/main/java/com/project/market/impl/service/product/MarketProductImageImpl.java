@@ -38,9 +38,13 @@ public class MarketProductImageImpl {
 
                 productImageMarketRepository.save(productImageMarket);
             }
-        } catch (ResponseException | IOException | ParseException e) {
+        } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
+            return Response.fail(e.getExceptionCode(), e.getMessage(), null);
+        } catch (IOException | ParseException ex) {
+            return Response.fail(String.valueOf(ex.hashCode()), ex.getMessage(), null);
         }
-        return new Response(Constant.STATUS_SUCCESS, Constant.SUCCESS, Constant.STATUS_CODE_SUCCESS);
+
+        return Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, "");
     }
 }
