@@ -1,4 +1,4 @@
-package com.project.market.entity.repository.payment;
+package com.project.market.repository.payment;
 
 import com.project.market.entity.payment.HistoryOrder;
 import org.springframework.data.jpa.repository.JpaRepository;

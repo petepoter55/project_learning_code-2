@@ -1,4 +1,4 @@
-package com.project.market.entity.repository.information;
+package com.project.market.repository.information;
 
 import com.project.market.entity.information.InformationMarket;
 import org.springframework.data.jpa.repository.JpaRepository;

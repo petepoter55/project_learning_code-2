@@ -1,4 +1,4 @@
-package com.project.market.entity.repository.product;
+package com.project.market.repository.product;
 
 import com.project.market.entity.product.ProductDiscount;
 import org.springframework.data.jpa.repository.JpaRepository;

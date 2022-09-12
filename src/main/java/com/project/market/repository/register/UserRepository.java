@@ -1,4 +1,4 @@
-package com.project.market.entity.repository.register;
+package com.project.market.repository.register;
 
 import com.project.market.entity.register.User;
 import org.springframework.data.jpa.repository.JpaRepository;

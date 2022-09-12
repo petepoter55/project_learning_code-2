@@ -1,7 +1,6 @@
 package com.project.market.impl.service.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.market.constant.Constant;
 import com.project.market.dto.req.product.ProductDiscountInsertDtpRequest;
@@ -9,9 +8,9 @@ import com.project.market.dto.req.product.ProductInsertDtoRequest;
 import com.project.market.dto.res.Response;
 import com.project.market.entity.product.ProductDiscount;
 import com.project.market.entity.product.ProductMarket;
-import com.project.market.entity.repository.product.ProductDiscountRepository;
-import com.project.market.entity.repository.product.ProductMarketDescriptionRepository;
-import com.project.market.entity.repository.product.ProductMarketRepository;
+import com.project.market.repository.product.ProductDiscountRepository;
+import com.project.market.repository.product.ProductMarketDescriptionRepository;
+import com.project.market.repository.product.ProductMarketRepository;
 import com.project.market.impl.exception.ResponseException;
 import com.project.market.impl.validation.ValidationAbstract;
 import com.project.market.impl.validation.ValidatorFactory;

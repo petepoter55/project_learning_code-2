@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.market.constant.Constant;
 import com.project.market.entity.information.InformationMarket;
-import com.project.market.entity.repository.information.InformationMarketRepository;
+import com.project.market.repository.information.InformationMarketRepository;
 import com.project.market.impl.exception.ResponseException;
 import com.project.market.impl.service.information.MarketInformationImpl;
 import com.project.market.model.request.SearchRequestTest;
