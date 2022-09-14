@@ -64,6 +64,8 @@ public class Constant {
     //create Data
     public final static String ERROR_REGISTER_CHECKDATA_DUPLICATE = "Data Register is Duplicate";
     public final static String ERROR_REGISTER_CHECKDATA_FOUND = "Data Register is Not Found";
+    public final static String ERROR_REGISTER_PASSWORD_CONFIRM_INVALID = "Password or PasswordConfirm invalid";
+    public final static String ERROR_REGISTER_EMAIL_CONFIRM_INVALID = "Email or EmailConfirm invalid";
     public final static String REFERENCE_NO = "M000000%d";
     public final static String STATUS_CREATE_BEGIN = "1";
     public final static String STATUS_CREATE_SUCCESS = "5";
@@ -111,4 +113,7 @@ public class Constant {
     //verify interceptor
     public final static String ERROR_DATA_INTERCEPTOR = "Data Not Found";
     public final static String ERROR_TOKEN_INTERCEPTOR = "Token Not Found";
+
+    //mail
+    public final static String ERROR_EMAIL_HEADER_FOUND = "Missing mail headers";
 }

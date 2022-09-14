@@ -2,11 +2,9 @@ package com.project.market.impl.service.otp;
 
 import com.project.market.dto.req.sms.SMSDtoRequest;
 import com.project.market.impl.exception.ResponseException;
-import com.project.market.impl.service.jwt.JwtImpl;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
-import netscape.javascript.JSObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -27,7 +25,7 @@ public class OtpImpl {
         try {
             Message.creator(new PhoneNumber(smsDtoRequest.getTo()), new PhoneNumber(smsDtoRequest.getFrom()), smsDtoRequest.getMessage()).create();
         } catch (ResponseException e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<String>("Message sent successfully", HttpStatus.OK);
     }

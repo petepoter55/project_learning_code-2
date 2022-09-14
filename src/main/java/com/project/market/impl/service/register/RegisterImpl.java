@@ -1,13 +1,16 @@
 package com.project.market.impl.service.register;
 
+import com.project.market.config.email.MailBuilder;
 import com.project.market.constant.Constant;
+import com.project.market.dto.req.email.EmailDtoRequest;
 import com.project.market.dto.req.register.ChangePasswordDtoRequest;
 import com.project.market.dto.req.register.LoginDtoRequest;
 import com.project.market.dto.req.register.RegisterDtoRequest;
 import com.project.market.dto.res.JwtDtoResponse;
 import com.project.market.dto.res.Response;
-import com.project.market.entity.information.InformationMarket;
 import com.project.market.entity.register.User;
+import com.project.market.impl.service.email.EmailImpl;
+import com.project.market.impl.validation.validate.ValidateRequestRegister;
 import com.project.market.repository.information.InformationMarketRepository;
 import com.project.market.repository.register.UserRepository;
 import com.project.market.impl.exception.ResponseException;
@@ -34,37 +37,54 @@ public class RegisterImpl {
     private JwtImpl jwtImpl;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailImpl emailImpl;
+    @Autowired
+    private ValidateRequestRegister validateRequestRegister;
 
     public ResponseEntity<Response> register(RegisterDtoRequest registerDtoRequest) {
-        new InformationMarket();
-        InformationMarket informationMarket;
+        logger.info("------------ register start ------------");
+        logger.info("request register : " + registerDtoRequest.toString());
         User user = new User();
-
         try {
-            informationMarket = informationMarketRepository.findByReferenceNo(registerDtoRequest.getRefNoInformation());
-            if (informationMarket != null) {
-                User userDup = userRepository.findByUsername(registerDtoRequest.getUsername());
-                if (userDup == null) {
-                    user.setUsername(registerDtoRequest.getUsername());
-                    user.setJwt_data(jwtImpl.generateToken(registerDtoRequest));
-                    user.setAuthenticate(Constant.AUTHENTICATE_TYPE_NORMAL);
-                    user.setCreateDateTime(new DateUtil().getFormatsDateMilli());
+            validateRequestRegister.validateRequest(registerDtoRequest);
 
-                    userRepository.save(user);
-                } else {
-                    throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_CREATE_ACCOUNT_DUP);
-                }
-            } else {
-                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_CREATE_ACCOUNT);
+            User userDup = userRepository.findByUsername(registerDtoRequest.getUsername());
+            if (userDup != null) {
+                throw new ResponseException(Constant.STATUS_CODE_ERROR, Constant.ERROR_CREATE_ACCOUNT_DUP);
             }
+
+            user.setUsername(registerDtoRequest.getUsername());
+            user.setJwt_data(jwtImpl.generateToken(registerDtoRequest));
+            user.setAuthenticate(Constant.AUTHENTICATE_TYPE_NORMAL);
+            user.setEmail(registerDtoRequest.getEmail());
+            user.setFirstName(registerDtoRequest.getFirstName());
+            user.setLastName(registerDtoRequest.getLastName());
+            user.setDelFlag(registerDtoRequest.isDelFlag());
+            user.setCreateDateTime(new DateUtil().getFormatsDateMilli());
+            userRepository.save(user);
+
+            logger.info("send Email..");
+            final EmailDtoRequest mail = new MailBuilder()
+                    .From("boonyaris.pen@gmail.com")
+                    .To(registerDtoRequest.getEmail())
+                    .Template("email-template/register-success.html")
+                    .AddContext("subject", "Thank! " + registerDtoRequest.getUsername())
+                    .AddContext("content", "Thank you for filling out our sign up form. We are glad that you joined us")
+                    .Subject("Thank For Register!")
+                    .createMail();
+            ResponseEntity<String> resSendEmail = this.emailImpl.sendEmail(mail);
+            logger.info("response send Email : " + resSendEmail.getBody());
+
         } catch (ResponseException e) {
             logger.error(String.format(Constant.THROW_EXCEPTION, e.getMessage()));
             return new ResponseEntity<>(Response.fail(e.getExceptionCode(), e.getMessage(), null), HttpStatus.BAD_REQUEST);
         } catch (UnsupportedEncodingException | NoSuchAlgorithmException | ParseException ex) {
+            logger.error(String.format(Constant.THROW_EXCEPTION, ex.getMessage()));
             return new ResponseEntity<>(Response.fail(String.valueOf(ex.hashCode()), ex.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, ""), HttpStatus.OK);
+        logger.info("------------ register done ------------");
+        return new ResponseEntity<>(Response.success(Constant.STATUS_CODE_SUCCESS, Constant.SUCCESS, user), HttpStatus.OK);
     }
 
     public JwtDtoResponse getDataToken(String jwtToken) {

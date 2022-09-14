@@ -20,6 +20,14 @@ public class User {
     private String jwt_data;
     @Column(name = "AUTHENTICATE")
     private String authenticate;
+    @Column(name = "FIRSTNAME")
+    private String firstName;
+    @Column(name = "LASTNAME")
+    private String lastName;
+    @Column(name = "EMAIL")
+    private String email;
+    @Column(name = "DELFLAG")
+    private Boolean delFlag;
     @Column(name = "STATUSRENEWPASSWORD")
     private String statusRenewPassword;
     @Column(name = "CREATEDATETIME")

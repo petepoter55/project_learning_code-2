@@ -16,6 +16,9 @@ public class RegisterDtoRequest {
     @Size(min = 1,max = 100)
     private String password;
     @NotNull
+    @Size(min = 1,max = 100)
+    private String confirmPassword;
+    @NotNull
     @Size(min = 1,max = 50)
     private String email;
     @NotNull
@@ -27,4 +30,25 @@ public class RegisterDtoRequest {
     @NotNull
     @Size(min = 1,max = 10)
     private String refNoInformation;
+    @NotNull
+    @Size(min = 1,max = 50)
+    private String firstName;
+    @NotNull
+    @Size(min = 1,max = 50)
+    private String lastName;
+    private boolean delFlag = true;
+
+    @Override
+    public String toString() {
+        return "RegisterDtoRequest{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", confirmEmail='" + confirmEmail + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", refNoInformation='" + refNoInformation + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

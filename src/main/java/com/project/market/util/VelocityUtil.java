@@ -2,11 +2,11 @@ package com.project.market.util;
 
 import com.project.market.constant.Constant;
 import com.project.market.impl.exception.ResponseException;
+
 import com.project.market.model.TemplateKeeper;
 import org.apache.log4j.Logger;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,15 +18,13 @@ import java.util.Properties;
 public class VelocityUtil {
     private static final Logger logger = Logger.getLogger(VelocityUtil.class);
 
-    @Autowired
-    private TemplateKeeper templateKeeper;
     private VelocityEngine velocityEngine = new VelocityEngine();
     private VelocityContext velocityContext = new VelocityContext();
 
     public String fillDataToTemplate(String serviceName, String templateName, Map<String, Object> data) throws ResponseException {
         String velocityTemplateString = null;
 
-        velocityTemplateString = templateKeeper.getTemplate(serviceName, templateName);
+        velocityTemplateString = new TemplateKeeper().getTemplate(serviceName, templateName);
 
         Properties prop = new Properties();
         try {

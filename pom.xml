@@ -235,7 +235,19 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 			<version>2.5.6</version>
 		</dependency>
-<!--		sms-->
+		<dependency>
+			<groupId>org.apache.velocity.tools</groupId>
+			<artifactId>velocity-tools-generic</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.icegreen</groupId>
+			<artifactId>greenmail-spring</artifactId>
+			<version>1.6.9</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!--		sms-->
 		<dependency>
 			<groupId>com.twilio.sdk</groupId>
 			<artifactId>twilio</artifactId>
